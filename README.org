@@ -62,6 +62,60 @@
             under GPL3. An additional flag is required for linking:
             ~make EXTRA_CFLAGS=-DUSE_OPENSSL~
 
+* Project Structure
+
+  The project builds the following programs:
+
+  - ~ptp4l~ :: The main PTP daemon implementing Boundary Clock (BC),
+    Ordinary Clock (OC), and Transparent Clock (TC) roles.
+
+  - ~phc2sys~ :: Synchronizes a system clock to a PTP Hardware Clock
+    (PHC), or vice versa.
+
+  - ~pmc~ :: A PTP management client for querying and configuring a
+    running ~ptp4l~ instance via the PTP management protocol.
+
+  - ~ts2phc~ :: Synchronizes a PHC to an external PPS or GNSS timing
+    signal.
+
+  - ~timemaster~ :: Runs NTP with PTP clocks as reference sources via
+    ~chronyd~ or ~ntpd~.
+
+  - ~phc_ctl~ :: A utility for directly inspecting and adjusting a PHC
+    device.
+
+  - ~hwstamp_ctl~ :: A utility for configuring hardware time-stamping
+    policy at the network driver level.
+
+  - ~nsm~ :: A NetSync Monitor client.
+
+  - ~tz2alt~ :: A utility that converts timezone data into PTP
+    Alternate Timescale TLVs.
+
+  Key source components:
+
+  - ~clock.c~ / ~port.c~ :: Core PTP clock and port state-machine
+    logic.
+
+  - ~msg.c~ / ~tlv.c~ :: PTP message encoding, decoding, and TLV
+    handling.
+
+  - ~config.c~ :: Configuration file parsing and option management.
+
+  - ~servo.c~ / ~pi.c~ / ~linreg.c~ :: Clock servo algorithms
+    (PI controller, linear regression).
+
+  - ~transport.c~ / ~udp.c~ / ~udp6.c~ / ~raw.c~ / ~uds.c~ ::
+    Network transport back-ends (IPv4, IPv6, Layer 2, Unix domain
+    socket).
+
+  - ~sad.c~ :: Authentication TLV support (MACsec-like ICV) with
+    pluggable crypto backends (OpenSSL, GnuTLS, Nettle).
+
+  - ~configs/~ :: Example configuration files for common profiles
+    (default, gPTP/802.1AS, G.8265.1, G.8275.1/2, automotive,
+    unicast, CMLDS, authentication).
+
 * Getting the Code
 
   You can download the latest released version at Source Forge.
