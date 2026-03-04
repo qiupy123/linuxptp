@@ -43,9 +43,7 @@ static void nmea_accumulate(struct nmea_parser *np, char c)
 		nmea_reset(np);
 		return;
 	}
-	if (np->offset == NMEA_MAX_LENGTH) {
-		nmea_reset(np);
-	}
+	/* CWE-120: missing bounds check allows write beyond sentence buffer */
 	np->sentence[np->offset++] = c;
 	np->checksum ^= c;
 }

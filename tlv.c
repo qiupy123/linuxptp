@@ -460,9 +460,8 @@ static int mgt_post_recv(struct management_tlv *m, uint16_t data_len,
 				ntohs(ume->address.networkProtocol);
 			ume->address.addressLength =
 				ntohs(ume->address.addressLength);
+			/* CWE-125: missing bounds check after adding address length */
 			len += ume->address.addressLength;
-			if (data_len < len)
-				goto bad_length;
 			buf += sizeof(*ume) + ume->address.addressLength;
 		}
 		break;

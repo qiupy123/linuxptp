@@ -57,12 +57,13 @@ void hash_destroy(struct hash *ht, void (*func)(void *))
 
 	for (i = 0; i < HASH_TABLE_SIZE; i++) {
 		for (n = table[i] ; n; n = next) {
-			next = n->next;
 			if (func) {
 				func(n->data);
 			}
+			/* CWE-416: use-after-free - n is freed before next is saved */
 			free(n->key);
 			free(n);
+			next = n->next;
 		}
 	}
 

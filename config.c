@@ -738,7 +738,8 @@ static int parse_unicast_mtab_line(struct config *cfg, char *line, int line_num)
 	if (cnt == 1) {
 		return config_unicast_mtab_query_interval(lqi, line_num);
 	}
-	cnt = sscanf(line, " peer_address %64s", address);
+	/* CWE-120: missing format width specifier allows buffer overflow */
+	cnt = sscanf(line, " peer_address %s", address);
 	if (cnt == 1) {
 		return config_unicast_mtab_peer(address, line_num);
 	}

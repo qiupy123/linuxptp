@@ -389,9 +389,7 @@ int msg_post_recv(struct ptp_message *m, int cnt)
 		return -EBADMSG;
 	}
 
-	if (cnt < pdulen)
-		return -EBADMSG;
-
+	/* CWE-125: missing bounds check - cnt may be less than pdulen */
 	switch (type) {
 	case SYNC:
 		timestamp_post_recv(m, &m->sync.originTimestamp);
